@@ -1,0 +1,261 @@
+---
+---
+
+<section class="hero">
+  <div class="container hero__content">
+    <div class="hero__text">
+      <p class="section-label reveal">AI-Powered Facial Analysis</p>
+      <h1 class="hero__title reveal">
+        Your Face,<br /><span class="gradient-text">Decoded</span>
+      </h1>
+      <p class="hero__subtitle reveal">
+        Track your glow-up journey with science-backed AI analysis.
+        155+ facial metrics. Daily insights. Zero judgment.
+      </p>
+      <div class="hero__actions reveal">
+        <a href="#waitlist" class="btn-primary">
+          Join the Waitlist
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+      </div>
+    </div>
+
+    <div class="hero__ring-wrapper reveal">
+      <div class="score-ring" id="hero-ring">
+        <svg viewBox="0 0 200 200" class="score-ring__svg">
+          <defs>
+            <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#94A3B8" />
+              <stop offset="25%" stop-color="#7DD3FC" />
+              <stop offset="50%" stop-color="#5EEAD4" />
+              <stop offset="75%" stop-color="#C084FC" />
+              <stop offset="100%" stop-color="#FCD34D" />
+            </linearGradient>
+          </defs>
+          <!-- Track -->
+          <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
+          <!-- Progress arc -->
+          <circle
+            cx="100" cy="100" r="85"
+            fill="none"
+            stroke="url(#ring-gradient)"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-dasharray="534"
+            stroke-dashoffset="534"
+            transform="rotate(-90 100 100)"
+            class="score-ring__arc"
+            id="ring-arc"
+          />
+        </svg>
+        <div class="score-ring__value">
+          <span class="score-ring__number" id="ring-number">0</span>
+          <span class="score-ring__label">Glow Score</span>
+        </div>
+        <!-- Glow effect behind ring -->
+        <div class="score-ring__glow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-line"></div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: var(--header-height);
+    position: relative;
+  }
+
+  .hero__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-3xl);
+  }
+
+  .hero__title {
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero__subtitle {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-2xl);
+    max-width: 48ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  /* Score Ring */
+  .hero__ring-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .score-ring {
+    position: relative;
+    width: 280px;
+    height: 280px;
+  }
+
+  .score-ring__svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .score-ring__arc {
+    transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .score-ring__value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .score-ring__number {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--glow-glowing), var(--glow-radiant));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .score-ring__label {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .score-ring__glow {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192, 132, 252, 0.12), transparent 70%);
+    pointer-events: none;
+    animation: ring-pulse 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes ring-pulse {
+    0%   { opacity: 0.6; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* Scroll indicator */
+  .hero__scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--text-tertiary), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+    50%      { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero__content {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: var(--space-2xl);
+    }
+
+    .hero__subtitle {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero__actions {
+      justify-content: center;
+    }
+
+    .score-ring {
+      width: 220px;
+      height: 220px;
+    }
+
+    .score-ring__number {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero__actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  // Score ring animation — triggered by IntersectionObserver
+  const ring = document.getElementById('hero-ring');
+  if (ring) {
+    const arc = document.getElementById('ring-arc') as SVGCircleElement;
+    const numberEl = document.getElementById('ring-number')!;
+    const targetScore = 78;
+    const circumference = 2 * Math.PI * 85; // ~534
+    const targetOffset = circumference - (targetScore / 100) * circumference;
+    let animated = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          // Animate arc
+          arc.style.strokeDashoffset = String(targetOffset);
+
+          // Count up number
+          const duration = 2000;
+          const start = performance.now();
+          const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
+
+          function tick(now: number) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const current = Math.round(ease(progress) * targetScore);
+            numberEl.textContent = String(current);
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          observer.unobserve(ring);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(ring);
+  }
+</script>

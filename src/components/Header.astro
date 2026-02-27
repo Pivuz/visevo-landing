@@ -1,0 +1,95 @@
+---
+---
+
+<header class="header" id="site-header">
+  <div class="header__inner container">
+    <a href="/" class="header__logo" aria-label="Visevo Home">
+      <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6D43B7"/>
+            <stop offset="100%" stop-color="#C084FC"/>
+          </linearGradient>
+        </defs>
+        <text x="16" y="24" font-family="'Space Grotesk',system-ui,sans-serif" font-weight="700" font-size="22" fill="url(#logo-grad)" text-anchor="middle">V</text>
+      </svg>
+      <span class="header__wordmark">Visevo</span>
+    </a>
+    <a href="#waitlist" class="btn-secondary header__cta">
+      Get Early Access
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+    transition: background var(--duration-normal) var(--ease-out),
+                border-color var(--duration-normal) var(--ease-out),
+                backdrop-filter var(--duration-normal) var(--ease-out);
+    border-bottom: 1px solid transparent;
+  }
+
+  .header.scrolled {
+    background: rgba(13, 13, 20, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom-color: var(--glass-border);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .header__wordmark {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .header__cta {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 480px) {
+    .header__wordmark {
+      font-size: 1.1rem;
+    }
+    .header__cta {
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  if (header) {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          header.classList.toggle('scrolled', window.scrollY > 40);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+</script>

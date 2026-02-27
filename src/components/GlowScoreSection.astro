@@ -1,0 +1,190 @@
+---
+const tiers = [
+  { range: '0–20', name: 'Foundation', color: '#94A3B8', desc: 'Your starting point. Every journey begins here.' },
+  { range: '21–40', name: 'Building', color: '#7DD3FC', desc: 'Momentum is growing. Small changes, visible results.' },
+  { range: '41–60', name: 'Balanced', color: '#5EEAD4', desc: 'Solid ground. Your routine is paying off.' },
+  { range: '61–80', name: 'Glowing', color: '#C084FC', desc: 'You\'re radiating. Consistency is your superpower.' },
+  { range: '81–100', name: 'Radiant', color: '#FCD34D', desc: 'Peak glow. You\'ve mastered your journey.' },
+];
+---
+
+<section class="glow-score section" id="glow-score">
+  <div class="container">
+    <div class="glow-score__layout">
+      <!-- Big ring -->
+      <div class="glow-score__ring-area reveal">
+        <div class="glow-score__ring">
+          <svg viewBox="0 0 240 240" class="glow-score__svg">
+            <defs>
+              <linearGradient id="big-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#94A3B8" />
+                <stop offset="25%" stop-color="#7DD3FC" />
+                <stop offset="50%" stop-color="#5EEAD4" />
+                <stop offset="75%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#FCD34D" />
+              </linearGradient>
+            </defs>
+            <circle cx="120" cy="120" r="105" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="10" />
+            <circle
+              cx="120" cy="120" r="105"
+              fill="none"
+              stroke="url(#big-ring-grad)"
+              stroke-width="10"
+              stroke-linecap="round"
+              stroke-dasharray="660"
+              stroke-dashoffset="0"
+              transform="rotate(-90 120 120)"
+            />
+          </svg>
+          <div class="glow-score__ring-inner">
+            <span class="glow-score__ring-number gradient-text">100</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tier legend -->
+      <div class="glow-score__info">
+        <p class="section-label reveal">The Glow Score</p>
+        <h2 class="section-title reveal">Your Glow, Quantified</h2>
+        <p class="glow-score__desc reveal">
+          The Glow Score combines 155+ facial metrics into one intuitive number.
+          It reflects balance, skin vitality, and proportions — not beauty standards.
+          Track it daily. Watch it grow.
+        </p>
+
+        <div class="glow-score__tiers">
+          {tiers.map((tier) => (
+            <div class="glow-score__tier reveal" style={`--tier-color: ${tier.color}`}>
+              <div class="glow-score__tier-bar"></div>
+              <div class="glow-score__tier-content">
+                <div class="glow-score__tier-header">
+                  <span class="glow-score__tier-name">{tier.name}</span>
+                  <span class="glow-score__tier-range">{tier.range}</span>
+                </div>
+                <p class="glow-score__tier-desc">{tier.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .glow-score__layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-4xl);
+    align-items: center;
+  }
+
+  /* Ring area */
+  .glow-score__ring-area {
+    display: flex;
+    justify-content: center;
+  }
+
+  .glow-score__ring {
+    position: relative;
+    width: 280px;
+    height: 280px;
+  }
+
+  .glow-score__svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .glow-score__ring-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .glow-score__ring-number {
+    font-family: var(--font-heading);
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Info */
+  .glow-score__desc {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* Tiers */
+  .glow-score__tiers {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .glow-score__tier {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  .glow-score__tier-bar {
+    width: 3px;
+    min-height: 40px;
+    background: var(--tier-color);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .glow-score__tier-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+    margin-bottom: 2px;
+  }
+
+  .glow-score__tier-name {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--tier-color);
+    font-size: 0.9375rem;
+  }
+
+  .glow-score__tier-range {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  .glow-score__tier-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .glow-score__layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+      text-align: center;
+    }
+
+    .glow-score__ring {
+      width: 220px;
+      height: 220px;
+    }
+
+    .glow-score__ring-number {
+      font-size: 3.5rem;
+    }
+
+    .glow-score__tiers {
+      text-align: left;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+  }
+</style>

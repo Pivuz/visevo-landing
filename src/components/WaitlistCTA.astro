@@ -1,0 +1,214 @@
+---
+---
+
+<section class="waitlist section" id="waitlist">
+  <div class="container text-center">
+    <div class="waitlist__card glass-card">
+      <p class="section-label reveal">Join the Waitlist</p>
+      <h2 class="section-title reveal">Ready to Know Your Glow?</h2>
+      <p class="waitlist__desc reveal">
+        Be among the first to experience Visevo. Early access members get a
+        lifetime badge and priority onboarding.
+      </p>
+
+      <form class="waitlist__form reveal" id="waitlist-form">
+        <div class="waitlist__input-group">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            required
+            autocomplete="email"
+            class="waitlist__input"
+            aria-label="Email address"
+          />
+          <button type="submit" class="btn-primary waitlist__submit">
+            <span class="waitlist__submit-text">Get Early Access</span>
+            <span class="waitlist__submit-loading" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="28" stroke-dashoffset="8" stroke-linecap="round">
+                  <animateTransform attributeName="transform" type="rotate" from="0 8 8" to="360 8 8" dur="0.8s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </span>
+          </button>
+        </div>
+        <p class="waitlist__error" id="waitlist-error" role="alert"></p>
+      </form>
+
+      <!-- Success state -->
+      <div class="waitlist__success" id="waitlist-success" aria-live="polite">
+        <div class="waitlist__success-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="20" stroke="#5EEAD4" stroke-width="2"/>
+            <path d="M16 24l6 6 10-12" stroke="#5EEAD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="waitlist__success-title">You're on the list!</h3>
+        <p class="waitlist__success-desc">
+          We'll let you know when Visevo is ready. Keep glowing.
+        </p>
+      </div>
+
+      <p class="waitlist__privacy reveal">
+        No spam, ever. Unsubscribe anytime.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .waitlist__card {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-2xl);
+    border-top: 2px solid var(--color-primary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .waitlist__desc {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: var(--space-2xl);
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .waitlist__form {
+    max-width: 440px;
+    margin: 0 auto var(--space-lg);
+  }
+
+  .waitlist__input-group {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .waitlist__input {
+    flex: 1;
+    padding: 0.875rem 1.25rem;
+    background: var(--surface-2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .waitlist__input::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  .waitlist__input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(109, 67, 183, 0.15);
+  }
+
+  .waitlist__submit {
+    flex-shrink: 0;
+    min-width: 160px;
+  }
+
+  .waitlist__submit-loading {
+    display: none;
+  }
+
+  .waitlist__submit.loading .waitlist__submit-text {
+    display: none;
+  }
+
+  .waitlist__submit.loading .waitlist__submit-loading {
+    display: inline-flex;
+  }
+
+  .waitlist__error {
+    font-size: 0.8125rem;
+    color: var(--color-tertiary);
+    margin-top: var(--space-sm);
+    min-height: 1.2em;
+  }
+
+  .waitlist__success {
+    display: none;
+  }
+
+  .waitlist__success.show {
+    display: block;
+  }
+
+  .waitlist__success-icon {
+    margin-bottom: var(--space-md);
+  }
+
+  .waitlist__success-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+    color: #5EEAD4;
+  }
+
+  .waitlist__success-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .waitlist__privacy {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  @media (max-width: 560px) {
+    .waitlist__input-group {
+      flex-direction: column;
+    }
+
+    .waitlist__submit {
+      width: 100%;
+    }
+
+    .waitlist__card {
+      padding: var(--space-2xl) var(--space-lg);
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('waitlist-form') as HTMLFormElement;
+  const errorEl = document.getElementById('waitlist-error')!;
+  const successEl = document.getElementById('waitlist-success')!;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.waitlist__submit') as HTMLButtonElement;
+    const email = new FormData(form).get('email') as string;
+
+    errorEl.textContent = '';
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        form.style.display = 'none';
+        successEl.classList.add('show');
+      } else if (res.status === 409) {
+        errorEl.textContent = 'You\'re already on the list! We\'ll be in touch.';
+      } else {
+        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+      }
+    } catch {
+      errorEl.textContent = 'Network error. Please check your connection and try again.';
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+</script>

@@ -1,0 +1,123 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Scan',
+    description: 'Take a quick selfie. Our AI needs just 3 seconds and natural lighting to capture your facial data.',
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="6" y="8" width="28" height="24" rx="4" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="2" fill="currentColor"/><path d="M16 8V5h8v3" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  },
+  {
+    number: '02',
+    title: 'Analyze',
+    description: '155+ facial metrics are processed on-device. Your data never leaves your phone — privacy by design.',
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M14 20l4 4 8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  },
+  {
+    number: '03',
+    title: 'Grow',
+    description: 'Get your Glow Score, track trends, earn XP, and watch your glow-up journey unfold — one scan at a time.',
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M8 32l8-10 6 5 10-15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 12h4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  },
+];
+---
+
+<section class="how-it-works section" id="how-it-works">
+  <div class="container text-center">
+    <p class="section-label reveal">How It Works</p>
+    <h2 class="section-title reveal">Three Steps to Know Your Glow</h2>
+
+    <div class="how-it-works__steps">
+      {steps.map((step, i) => (
+        <div class="how-it-works__step reveal">
+          <div class="how-it-works__icon-wrapper">
+            <div class="how-it-works__icon" set:html={step.icon} />
+            {i < steps.length - 1 && <div class="how-it-works__connector" />}
+          </div>
+          <span class="how-it-works__number">{step.number}</span>
+          <h3 class="how-it-works__title">{step.title}</h3>
+          <p class="how-it-works__desc">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2xl);
+    margin-top: var(--space-3xl);
+    position: relative;
+  }
+
+  .how-it-works__step {
+    text-align: center;
+    position: relative;
+  }
+
+  .how-it-works__icon-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .how-it-works__icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    color: var(--color-primary);
+  }
+
+  .how-it-works__connector {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 52px);
+    width: calc(100% - 24px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--glass-border), rgba(109,67,183,0.3), var(--glass-border));
+  }
+
+  .how-it-works__number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xs);
+  }
+
+  .how-it-works__title {
+    font-size: 1.375rem;
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+  }
+
+  .how-it-works__desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    max-width: 32ch;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .how-it-works__steps {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: var(--space-2xl);
+    }
+
+    .how-it-works__connector {
+      display: none;
+    }
+  }
+</style>

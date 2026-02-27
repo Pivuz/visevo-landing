@@ -1,0 +1,54 @@
+---
+---
+
+<section class="coming-soon section">
+  <div class="container text-center">
+    <p class="section-label reveal">Coming Soon</p>
+    <h2 class="section-title reveal">Available on iOS & Android</h2>
+    <p class="section-subtitle reveal">
+      We're putting the finishing touches on something special.
+    </p>
+
+    <div class="coming-soon__badges reveal">
+      <!-- App Store badge (dimmed) -->
+      <div class="coming-soon__badge" aria-label="Coming soon to the App Store">
+        <svg width="160" height="48" viewBox="0 0 160 48" fill="none">
+          <rect x="0.5" y="0.5" width="159" height="47" rx="7.5" stroke="rgba(255,255,255,0.2)"/>
+          <text x="80" y="20" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="'Inter',system-ui" font-size="9" font-weight="400">Download on the</text>
+          <text x="80" y="34" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="'Space Grotesk',system-ui" font-size="16" font-weight="600">App Store</text>
+        </svg>
+      </div>
+
+      <!-- Google Play badge (dimmed) -->
+      <div class="coming-soon__badge" aria-label="Coming soon to Google Play">
+        <svg width="160" height="48" viewBox="0 0 160 48" fill="none">
+          <rect x="0.5" y="0.5" width="159" height="47" rx="7.5" stroke="rgba(255,255,255,0.2)"/>
+          <text x="80" y="20" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="'Inter',system-ui" font-size="9" font-weight="400">GET IT ON</text>
+          <text x="80" y="34" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="'Space Grotesk',system-ui" font-size="16" font-weight="600">Google Play</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .coming-soon {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .coming-soon__badges {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    margin-top: var(--space-2xl);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 480px) {
+    .coming-soon__badges {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

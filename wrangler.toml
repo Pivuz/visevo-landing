@@ -1,0 +1,7 @@
+name = "visevo-landing"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "visevo-waitlist"
+database_id = "312bb163-e699-45f1-afe4-bc1294ddbe62"
