@@ -49,7 +49,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content="#0D0D14" />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
       "name": "Visevo",

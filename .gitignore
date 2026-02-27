@@ -27,3 +27,6 @@ Thumbs.db
 
 # jetbrains setting folder
 .idea/
+
+# vscode
+.vscode/

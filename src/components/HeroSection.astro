@@ -224,7 +224,7 @@
   // Score ring animation — triggered by IntersectionObserver
   const ring = document.getElementById('hero-ring');
   if (ring) {
-    const arc = document.getElementById('ring-arc') as SVGCircleElement;
+    const arc = document.getElementById('ring-arc') as unknown as SVGCircleElement;
     const numberEl = document.getElementById('ring-number')!;
     const targetScore = 78;
     const circumference = 2 * Math.PI * 85; // ~534
