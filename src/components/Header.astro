@@ -15,9 +15,12 @@
       </svg>
       <span class="header__wordmark">Visevo</span>
     </a>
-    <a href="#waitlist" class="btn-secondary header__cta">
-      Get Early Access
-    </a>
+    <nav class="header__nav">
+      <a href="/try" class="header__link">Try It</a>
+      <a href="#waitlist" class="btn-secondary header__cta">
+        Get Early Access
+      </a>
+    </nav>
   </div>
 </header>
 
@@ -60,6 +63,23 @@
     font-weight: 700;
     font-size: 1.25rem;
     letter-spacing: -0.02em;
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .header__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .header__link:hover {
+    color: var(--text-primary);
   }
 
   .header__cta {

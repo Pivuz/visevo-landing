@@ -1,0 +1,396 @@
+---
+---
+
+<section class="results-section hidden" id="results-section">
+  <div class="container">
+    <div class="results__layout">
+
+      <!-- Glow Score Ring -->
+      <div class="results__ring-card glass-card">
+        <div class="results__ring" id="results-ring">
+          <svg viewBox="0 0 200 200" class="results__ring-svg">
+            <defs>
+              <linearGradient id="results-ring-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#94A3B8" />
+                <stop offset="25%" stop-color="#7DD3FC" />
+                <stop offset="50%" stop-color="#5EEAD4" />
+                <stop offset="75%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#FCD34D" />
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
+            <circle
+              cx="100" cy="100" r="85"
+              fill="none"
+              stroke="url(#results-ring-gradient)"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-dasharray="534"
+              stroke-dashoffset="534"
+              transform="rotate(-90 100 100)"
+              class="results__ring-arc"
+              id="results-arc"
+            />
+          </svg>
+          <div class="results__ring-value">
+            <span class="results__ring-number" id="results-number">0</span>
+            <span class="results__ring-label">Glow Score</span>
+          </div>
+          <div class="results__ring-glow"></div>
+        </div>
+
+        <!-- Face Shape -->
+        <div class="results__shape" id="results-shape">
+          <span class="results__shape-type" id="results-shape-type"></span>
+          <span class="results__shape-desc" id="results-shape-desc"></span>
+        </div>
+      </div>
+
+      <!-- Scores Breakdown -->
+      <div class="results__scores glass-card">
+        <h3 class="results__scores-title">Structure Analysis</h3>
+
+        <div class="results__score-list" id="results-score-list">
+          <div class="results__score-row" data-metric="symmetry">
+            <div class="results__score-header">
+              <span class="results__score-name">Symmetry</span>
+              <span class="results__score-value" data-value>—</span>
+            </div>
+            <div class="results__score-bar">
+              <div class="results__score-fill" data-fill></div>
+            </div>
+          </div>
+
+          <div class="results__score-row" data-metric="goldenRatio">
+            <div class="results__score-header">
+              <span class="results__score-name">Golden Ratio</span>
+              <span class="results__score-value" data-value>—</span>
+            </div>
+            <div class="results__score-bar">
+              <div class="results__score-fill" data-fill></div>
+            </div>
+          </div>
+
+          <div class="results__score-row" data-metric="jawline">
+            <div class="results__score-header">
+              <span class="results__score-name">Jawline</span>
+              <span class="results__score-value" data-value>—</span>
+            </div>
+            <div class="results__score-bar">
+              <div class="results__score-fill" data-fill></div>
+            </div>
+          </div>
+
+          <div class="results__score-row" data-metric="facialThirds">
+            <div class="results__score-header">
+              <span class="results__score-name">Facial Thirds</span>
+              <span class="results__score-value" data-value>—</span>
+            </div>
+            <div class="results__score-bar">
+              <div class="results__score-fill" data-fill></div>
+            </div>
+          </div>
+
+          <div class="results__score-row" data-metric="facialFifths">
+            <div class="results__score-header">
+              <span class="results__score-name">Facial Fifths</span>
+              <span class="results__score-value" data-value>—</span>
+            </div>
+            <div class="results__score-bar">
+              <div class="results__score-fill" data-fill></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warnings -->
+        <div class="results__warnings hidden" id="results-warnings">
+          <p class="results__warning" id="results-pose-warning"></p>
+          <p class="results__warning" id="results-expr-warning"></p>
+        </div>
+
+        <p class="results__disclaimer">
+          Structure analysis preview. Download the app for skin analysis, AI insights, and daily tracking.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .results__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    max-width: 800px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .results__ring-card {
+    padding: var(--space-2xl);
+    text-align: center;
+  }
+
+  /* Ring — same pattern as HeroSection */
+  .results__ring {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .results__ring-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .results__ring-arc {
+    transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .results__ring-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .results__ring-number {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--glow-glowing), var(--glow-radiant));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .results__ring-label {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    margin-top: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .results__ring-glow {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192, 132, 252, 0.12), transparent 70%);
+    pointer-events: none;
+    animation: ring-pulse 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes ring-pulse {
+    0%   { opacity: 0.6; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* Face Shape */
+  .results__shape {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .results__shape-type {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--glow-balanced);
+    text-transform: capitalize;
+  }
+
+  .results__shape-desc {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Scores */
+  .results__scores {
+    padding: var(--space-2xl);
+  }
+
+  .results__scores-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    color: var(--text-primary);
+  }
+
+  .results__score-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .results__score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-xs);
+  }
+
+  .results__score-name {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .results__score-value {
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .results__score-bar {
+    height: 6px;
+    background: var(--surface-3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .results__score-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 3px;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Warnings */
+  .results__warnings {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: rgba(230, 74, 25, 0.08);
+    border: 1px solid rgba(230, 74, 25, 0.2);
+    border-radius: var(--radius-md);
+  }
+
+  .results__warning {
+    font-size: 0.8125rem;
+    color: var(--color-tertiary);
+    margin: 0;
+  }
+
+  .results__warning:empty {
+    display: none;
+  }
+
+  .results__disclaimer {
+    margin-top: var(--space-lg);
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-style: italic;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 768px) {
+    .results__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .results__ring {
+      width: 180px;
+      height: 180px;
+    }
+
+    .results__ring-number {
+      font-size: 2.75rem;
+    }
+  }
+</style>
+
+<script>
+  // Color for score bar based on value (reuses glow tier colors)
+  function getScoreColor(score: number): string {
+    if (score >= 81) return 'var(--glow-radiant)';
+    if (score >= 61) return 'var(--glow-glowing)';
+    if (score >= 41) return 'var(--glow-balanced)';
+    if (score >= 21) return 'var(--glow-building)';
+    return 'var(--glow-foundation)';
+  }
+
+  /**
+   * Populate results from analysis data.
+   * Called by try.astro via custom event.
+   */
+  function showResults(data: {
+    glowScore: number;
+    scores: Record<string, number>;
+    faceShape: { type: string; description: string };
+    poseWarning: string;
+    expressionWarning: string;
+  }) {
+    const section = document.getElementById('results-section')!;
+    section.classList.remove('hidden');
+
+    // Animate glow score ring
+    const arc = document.getElementById('results-arc')!;
+    const numberEl = document.getElementById('results-number')!;
+    const circumference = 2 * Math.PI * 85; // ~534
+    const targetOffset = circumference - (data.glowScore / 100) * circumference;
+
+    // Small delay to ensure CSS transition fires
+    requestAnimationFrame(() => {
+      arc.style.strokeDashoffset = String(targetOffset);
+
+      // Count up animation
+      const duration = 2000;
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+
+      function tick(now: number) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const current = Math.round(ease(progress) * data.glowScore);
+        numberEl.textContent = String(current);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+
+    // Face shape
+    document.getElementById('results-shape-type')!.textContent = data.faceShape.type;
+    document.getElementById('results-shape-desc')!.textContent = data.faceShape.description;
+
+    // Individual scores with staggered animation
+    const rows = document.querySelectorAll('[data-metric]');
+    rows.forEach((row, i) => {
+      const metric = (row as HTMLElement).dataset.metric!;
+      const score = data.scores[metric] ?? 0;
+      const valueEl = row.querySelector('[data-value]')!;
+      const fillEl = row.querySelector('[data-fill]') as HTMLElement;
+
+      valueEl.textContent = String(score);
+      fillEl.style.background = getScoreColor(score);
+
+      setTimeout(() => {
+        fillEl.style.width = `${score}%`;
+      }, 300 + i * 150);
+    });
+
+    // Warnings
+    const warningsEl = document.getElementById('results-warnings')!;
+    const poseEl = document.getElementById('results-pose-warning')!;
+    const exprEl = document.getElementById('results-expr-warning')!;
+    poseEl.textContent = data.poseWarning || '';
+    exprEl.textContent = data.expressionWarning || '';
+    if (data.poseWarning || data.expressionWarning) {
+      warningsEl.classList.remove('hidden');
+    }
+  }
+
+  // Listen for results event from try.astro orchestrator
+  window.addEventListener('visevo:results', ((e: CustomEvent) => {
+    showResults(e.detail);
+  }) as EventListener);
+</script>

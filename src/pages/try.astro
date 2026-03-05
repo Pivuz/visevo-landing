@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import TryHero from '../components/try/TryHero.astro';
+import ImageCapture from '../components/try/ImageCapture.astro';
+import AnalysisLoading from '../components/try/AnalysisLoading.astro';
+import TeaserResults from '../components/try/TeaserResults.astro';
+import DownloadCTA from '../components/try/DownloadCTA.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Try Visevo — Free Face Analysis"
+  description="Get a free facial structure analysis powered by AI. Discover your Glow Score, face shape, and more — all in your browser, no download needed."
+>
+  <Header />
+
+  <main>
+    <TryHero />
+    <ImageCapture />
+    <AnalysisLoading />
+    <TeaserResults />
+    <DownloadCTA />
+
+    <!-- Error overlay -->
+    <section class="error-section hidden" id="error-section">
+      <div class="container text-center">
+        <div class="error__card glass-card">
+          <div class="error__icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="20" stroke="var(--color-tertiary)" stroke-width="2"/>
+              <path d="M24 16v10" stroke="var(--color-tertiary)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="24" cy="32" r="1.5" fill="var(--color-tertiary)"/>
+            </svg>
+          </div>
+          <h3 class="error__title" id="error-title">No face detected</h3>
+          <p class="error__desc" id="error-desc">
+            We couldn't find a face in your photo. Please try a clearer, well-lit photo with your face visible.
+          </p>
+          <button class="btn-primary" id="btn-error-retry" type="button">Try Again</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .error__card {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-2xl);
+  }
+
+  .error__icon {
+    margin-bottom: var(--space-lg);
+  }
+
+  .error__title {
+    color: var(--color-tertiary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .error__desc {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+    line-height: 1.6;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // --- Orchestrator: manages page states and connects components ---
+
+  import { initEngine, analyzeImage } from '../scripts/face-analysis/engine.js';
+
+  const captureSection = document.getElementById('capture-section')!;
+  const loadingSection = document.getElementById('loading-section')!;
+  const resultsSection = document.getElementById('results-section')!;
+  const downloadCTA = document.getElementById('download-cta')!;
+  const errorSection = document.getElementById('error-section')!;
+  const loadingText = document.getElementById('loading-text')!;
+
+  function hideAll() {
+    captureSection.classList.add('hidden');
+    loadingSection.classList.add('hidden');
+    resultsSection.classList.add('hidden');
+    downloadCTA.classList.add('hidden');
+    errorSection.classList.add('hidden');
+  }
+
+  function showCapture() {
+    hideAll();
+    captureSection.classList.remove('hidden');
+    // Reset capture to upload state
+    document.getElementById('capture-upload')!.classList.remove('hidden');
+    document.getElementById('capture-camera')!.classList.add('hidden');
+    document.getElementById('capture-preview')!.classList.add('hidden');
+  }
+
+  function showLoading() {
+    hideAll();
+    loadingSection.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResults() {
+    hideAll();
+    resultsSection.classList.remove('hidden');
+    downloadCTA.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showError(title: string, desc: string) {
+    hideAll();
+    document.getElementById('error-title')!.textContent = title;
+    document.getElementById('error-desc')!.textContent = desc;
+    errorSection.classList.remove('hidden');
+  }
+
+  // Preload MediaPipe engine in background
+  let engineReady = false;
+  initEngine((msg: string) => {
+    loadingText.textContent = msg;
+  }).then(() => {
+    engineReady = true;
+  }).catch((err: Error) => {
+    console.error('Failed to initialize face analysis engine:', err);
+  });
+
+  // Handle analyze request from ImageCapture
+  window.addEventListener('visevo:analyze', async (e: Event) => {
+    const { imageElement } = (e as CustomEvent).detail;
+    showLoading();
+
+    try {
+      // Wait for engine if not ready yet
+      if (!engineReady) {
+        loadingText.textContent = 'Loading AI model...';
+        await initEngine((msg: string) => {
+          loadingText.textContent = msg;
+        });
+        engineReady = true;
+      }
+
+      loadingText.textContent = 'Analyzing your features';
+
+      // Wait for the image to be fully loaded
+      if (imageElement instanceof HTMLImageElement && !imageElement.complete) {
+        await new Promise<void>((resolve) => {
+          imageElement.onload = () => resolve();
+        });
+      }
+
+      const result = await analyzeImage(imageElement);
+
+      if (result.error) {
+        showError(
+          result.error === 'no_face' ? 'No face detected' : 'Analysis failed',
+          result.message || 'Please try a different photo.'
+        );
+        return;
+      }
+
+      // Dispatch results to TeaserResults component
+      window.dispatchEvent(new CustomEvent('visevo:results', { detail: result }));
+      showResults();
+
+    } catch (err) {
+      console.error('Analysis error:', err);
+      const msg = err instanceof Error ? err.message : String(err);
+      showError('Something went wrong', msg || 'Please try again with a different photo.');
+    }
+  });
+
+  // Handle reset (try another photo)
+  window.addEventListener('visevo:reset', () => {
+    showCapture();
+  });
+
+  // Handle error retry
+  document.getElementById('btn-error-retry')?.addEventListener('click', () => {
+    showCapture();
+  });
+</script>

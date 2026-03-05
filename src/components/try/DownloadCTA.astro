@@ -1,0 +1,174 @@
+---
+---
+
+<section class="download-cta hidden" id="download-cta">
+  <div class="container text-center">
+    <div class="download-cta__card glass-card">
+      <h2 class="download-cta__title">This Is Just the <span class="gradient-text">Beginning</span></h2>
+      <p class="download-cta__desc">
+        The full Visevo app goes deeper with features you can't get on the web:
+      </p>
+
+      <div class="download-cta__features">
+        <div class="download-cta__feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="var(--glow-balanced)" stroke-width="1.5"/>
+            <path d="M8 12l3 3 5-6" stroke="var(--glow-balanced)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Skin Analysis</strong>
+            <span>Luminosity, texture, tone evenness, under-eye</span>
+          </div>
+        </div>
+        <div class="download-cta__feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="var(--glow-glowing)" stroke-width="1.5"/>
+            <path d="M8 12l3 3 5-6" stroke="var(--glow-glowing)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Age Estimation</strong>
+            <span>AI-calibrated apparent age range</span>
+          </div>
+        </div>
+        <div class="download-cta__feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="var(--glow-radiant)" stroke-width="1.5"/>
+            <path d="M8 12l3 3 5-6" stroke="var(--glow-radiant)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>AI Insights</strong>
+            <span>Personalized recommendations powered by AI</span>
+          </div>
+        </div>
+        <div class="download-cta__feature">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="var(--glow-building)" stroke-width="1.5"/>
+            <path d="M8 12l3 3 5-6" stroke="var(--glow-building)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <strong>Daily Tracking</strong>
+            <span>Track your glow-up over time with trends</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="download-cta__badges">
+        <div class="download-cta__badge" aria-label="Coming soon to the App Store">
+          <svg width="160" height="48" viewBox="0 0 160 48" fill="none">
+            <rect x="0.5" y="0.5" width="159" height="47" rx="7.5" stroke="rgba(255,255,255,0.3)"/>
+            <text x="80" y="20" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="'Inter',system-ui" font-size="9" font-weight="400">Download on the</text>
+            <text x="80" y="34" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="'Space Grotesk',system-ui" font-size="16" font-weight="600">App Store</text>
+          </svg>
+        </div>
+        <div class="download-cta__badge" aria-label="Coming soon to Google Play">
+          <svg width="160" height="48" viewBox="0 0 160 48" fill="none">
+            <rect x="0.5" y="0.5" width="159" height="47" rx="7.5" stroke="rgba(255,255,255,0.3)"/>
+            <text x="80" y="20" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="'Inter',system-ui" font-size="9" font-weight="400">GET IT ON</text>
+            <text x="80" y="34" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="'Space Grotesk',system-ui" font-size="16" font-weight="600">Google Play</text>
+          </svg>
+        </div>
+      </div>
+
+      <button class="btn-secondary download-cta__retry" id="btn-try-another" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 8a6 6 0 0110.9-3.5M14 8a6 6 0 01-10.9 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 2v4h-4M2 14v-4h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Try Another Photo
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .download-cta__card {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-2xl);
+    border-top: 2px solid var(--color-primary);
+  }
+
+  .download-cta__title {
+    margin-bottom: var(--space-md);
+  }
+
+  .download-cta__desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .download-cta__features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto var(--space-2xl);
+  }
+
+  .download-cta__feature {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .download-cta__feature svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .download-cta__feature strong {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+  }
+
+  .download-cta__feature span {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+  }
+
+  .download-cta__badges {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .download-cta__badge {
+    opacity: 0.8;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+
+  .download-cta__badge:hover {
+    opacity: 1;
+  }
+
+  .download-cta__retry {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media (max-width: 480px) {
+    .download-cta__badges {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .download-cta__card {
+      padding: var(--space-2xl) var(--space-lg);
+    }
+  }
+</style>
+
+<script>
+  document.getElementById('btn-try-another')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('visevo:reset'));
+  });
+</script>

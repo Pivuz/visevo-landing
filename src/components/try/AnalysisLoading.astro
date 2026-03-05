@@ -1,0 +1,136 @@
+---
+---
+
+<section class="loading-section hidden" id="loading-section">
+  <div class="container text-center">
+    <div class="loading__card glass-card">
+      <div class="loading__ring">
+        <svg viewBox="0 0 200 200" class="loading__ring-svg">
+          <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8" />
+          <circle
+            cx="100" cy="100" r="85"
+            fill="none"
+            stroke="url(#loading-gradient)"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-dasharray="134 400"
+            transform="rotate(-90 100 100)"
+            class="loading__ring-arc"
+          />
+          <defs>
+            <linearGradient id="loading-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C084FC" />
+              <stop offset="100%" stop-color="#5EEAD4" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <p class="loading__text" id="loading-text">Analyzing your features</p>
+      <div class="loading__bars">
+        <div class="loading__bar"></div>
+        <div class="loading__bar"></div>
+        <div class="loading__bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .loading__card {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-2xl);
+  }
+
+  .loading__ring {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto var(--space-xl);
+  }
+
+  .loading__ring-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .loading__ring-arc {
+    animation: loading-spin 1.5s linear infinite;
+    transform-origin: center;
+  }
+
+  @keyframes loading-spin {
+    to { transform: rotate(270 100 100); }
+  }
+
+  /* SVG rotation via CSS */
+  .loading__ring-svg {
+    animation: svg-spin 1.5s linear infinite;
+  }
+
+  @keyframes svg-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Override the arc animation — let the SVG spin instead */
+  .loading__ring-arc {
+    animation: none;
+  }
+
+  .loading__text {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .loading__text::after {
+    content: '';
+    animation: loading-dots 1.5s steps(4, end) infinite;
+  }
+
+  @keyframes loading-dots {
+    0%   { content: ''; }
+    25%  { content: '.'; }
+    50%  { content: '..'; }
+    75%  { content: '...'; }
+  }
+
+  .loading__bars {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+  }
+
+  .loading__bar {
+    width: 80px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface-3);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .loading__bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+
+  .loading__bar:nth-child(2)::after { animation-delay: 0.2s; }
+  .loading__bar:nth-child(3)::after { animation-delay: 0.4s; }
+
+  @keyframes shimmer {
+    to { left: 100%; }
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
