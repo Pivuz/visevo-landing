@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const RATE_LIMIT_WINDOW = 3600; // 1 hour in seconds
+const RATE_LIMIT_MAX = 5; // max requests per IP per window
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -17,13 +19,32 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const db = locals.runtime?.env?.DB;
 
     if (!db) {
-      // Fallback: if D1 is not configured yet, still accept gracefully
-      console.log(`[waitlist] Email captured (no D1): ${email}`);
+      console.log('[waitlist] Email captured (no D1)');
       return new Response(
         JSON.stringify({ message: 'Thanks! You\'re on the list.' }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
+    // Rate limiting by IP
+    const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+    const cutoff = new Date(Date.now() - RATE_LIMIT_WINDOW * 1000).toISOString();
+
+    // Cleanup old entries and count recent requests
+    await db.prepare('DELETE FROM rate_limit WHERE timestamp < ?').bind(cutoff).run();
+    const countResult = await db.prepare(
+      'SELECT COUNT(*) as count FROM rate_limit WHERE ip = ? AND timestamp >= ?'
+    ).bind(ip, cutoff).first<{ count: number }>();
+
+    if (countResult && countResult.count >= RATE_LIMIT_MAX) {
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please try again later.' }),
+        { status: 429, headers: { 'Content-Type': 'application/json', 'Retry-After': String(RATE_LIMIT_WINDOW) } }
+      );
+    }
+
+    // Record this request
+    await db.prepare('INSERT INTO rate_limit (ip, timestamp) VALUES (?, ?)').bind(ip, new Date().toISOString()).run();
 
     // Get country from Cloudflare headers
     const country = request.headers.get('cf-ipcountry') || 'unknown';

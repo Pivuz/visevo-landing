@@ -298,16 +298,25 @@
   });
 
   // File upload
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
   fileInput?.addEventListener('change', () => {
     const file = fileInput.files?.[0];
     if (!file) return;
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      alert('Please upload a JPEG, PNG, or WebP image.');
+      fileInput.value = '';
+      return;
+    }
     if (file.size > 10 * 1024 * 1024) {
       alert('Image is too large. Please use a photo under 10MB.');
       return;
     }
 
+    const blobUrl = URL.createObjectURL(file);
     const img = new Image();
     img.onload = () => {
+      URL.revokeObjectURL(blobUrl);
       if (img.naturalWidth < 200 || img.naturalHeight < 200) {
         alert('Image is too small. Please use at least 200x200 pixels.');
         return;
@@ -316,7 +325,7 @@
       previewImg.src = dataUrl;
       showSection(previewSection);
     };
-    img.src = URL.createObjectURL(file);
+    img.src = blobUrl;
   });
 
   // Camera cancel
@@ -367,6 +376,10 @@
     video.srcObject = null;
   }
 
-  // Cleanup on page navigation
+  // Cleanup on page navigation and tab close
   document.addEventListener('astro:before-swap', () => stopCamera());
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') stopCamera();
+  });
+  window.addEventListener('pagehide', () => stopCamera());
 </script>
