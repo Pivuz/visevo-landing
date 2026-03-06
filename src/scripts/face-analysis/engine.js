@@ -4,7 +4,7 @@
  */
 
 import { parseLandmarks } from './landmarks.js';
-import { calculateStructureScore } from './calculators.js';
+import { calculateStructureScore, extractRawMetrics } from './calculators.js';
 import { classifyFaceShape, SHAPE_DESCRIPTIONS } from './classifier.js';
 import { validateHeadPose, validateExpression, POSE_MESSAGES, EXPRESSION_MESSAGES } from './validators.js';
 
@@ -99,6 +99,11 @@ export async function analyzeImage(imageElement) {
   // Calculate all structure scores
   const scores = calculateStructureScore(lm);
 
+  // Debug: extract raw metrics (pre-calibration)
+  const rawMetrics = extractRawMetrics(lm);
+  console.log('[VISEVO DEBUG] Raw metrics:', JSON.stringify(rawMetrics, null, 2));
+  console.log('[VISEVO DEBUG] Calibrated scores:', JSON.stringify(scores, null, 2));
+
   // Classify face shape
   const { shape, confidence } = classifyFaceShape(lm);
   const shapeDescription = SHAPE_DESCRIPTIONS[shape] || '';
@@ -112,6 +117,8 @@ export async function analyzeImage(imageElement) {
       jawline: Math.round(scores.jawline),
       facialThirds: Math.round(scores.facialThirds),
       facialFifths: Math.round(scores.facialFifths),
+      averageness: Math.round(scores.averageness),
+      harmony: Math.round(scores.harmony),
     },
     faceShape: {
       type: shape,
