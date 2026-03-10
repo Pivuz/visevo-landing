@@ -1,17 +1,21 @@
 ---
+const { t } = Astro.locals;
 ---
 
 <section class="waitlist section" id="waitlist">
   <div class="container text-center">
     <div class="waitlist__card glass-card">
-      <p class="section-label reveal">Join the Waitlist</p>
-      <h2 class="section-title reveal">Ready to Know Your Glow?</h2>
+      <p class="section-label reveal">{t('wait.label')}</p>
+      <h2 class="section-title reveal">{t('wait.title')}</h2>
       <p class="waitlist__desc reveal">
-        Be among the first to experience Visevo. Early access members get a
-        lifetime badge and priority onboarding.
+        {t('wait.desc')}
       </p>
 
-      <form class="waitlist__form reveal" id="waitlist-form">
+      <form class="waitlist__form reveal" id="waitlist-form"
+        data-err-duplicate={t('wait.errDuplicate')}
+        data-err-generic={t('wait.errGeneric')}
+        data-err-network={t('wait.errNetwork')}
+      >
         <div class="waitlist__input-group">
           <input
             type="email"
@@ -23,7 +27,7 @@
             aria-label="Email address"
           />
           <button type="submit" class="btn-primary waitlist__submit">
-            <span class="waitlist__submit-text">Get Early Access</span>
+            <span class="waitlist__submit-text">{t('wait.button')}</span>
             <span class="waitlist__submit-loading" aria-hidden="true">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="28" stroke-dashoffset="8" stroke-linecap="round">
@@ -44,14 +48,14 @@
             <path d="M16 24l6 6 10-12" stroke="#5EEAD4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h3 class="waitlist__success-title">You're on the list!</h3>
+        <h3 class="waitlist__success-title">{t('wait.successTitle')}</h3>
         <p class="waitlist__success-desc">
-          We'll let you know when Visevo is ready. Keep glowing.
+          {t('wait.successDesc')}
         </p>
       </div>
 
       <p class="waitlist__privacy reveal">
-        No spam, ever. Unsubscribe anytime.
+        {t('wait.privacy')}
       </p>
     </div>
   </div>
@@ -200,12 +204,12 @@
         form.style.display = 'none';
         successEl.classList.add('show');
       } else if (res.status === 409) {
-        errorEl.textContent = 'You\'re already on the list! We\'ll be in touch.';
+        errorEl.textContent = form.dataset.errDuplicate || 'You\'re already on the list!';
       } else {
-        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
+        errorEl.textContent = data.error || form.dataset.errGeneric || 'Something went wrong.';
       }
     } catch {
-      errorEl.textContent = 'Network error. Please check your connection and try again.';
+      errorEl.textContent = form.dataset.errNetwork || 'Network error.';
     } finally {
       submitBtn.classList.remove('loading');
       submitBtn.disabled = false;

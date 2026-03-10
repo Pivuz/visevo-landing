@@ -1,26 +1,26 @@
 ---
+const { t } = Astro.locals;
 ---
 
 <section class="hero">
   <div class="container hero__content">
     <div class="hero__text">
-      <p class="section-label reveal">AI Skincare Coach</p>
+      <p class="section-label reveal">{t('hero.label')}</p>
       <h1 class="hero__title reveal">
-        Track Your<br /><span class="gradient-text">Glow-Up</span>
+        {t('hero.title1')}<br /><span class="gradient-text">{t('hero.title2')}</span>
       </h1>
       <p class="hero__subtitle reveal">
-        Daily AI skin scans, personalized insights, and an AI coach that learns your routine.
-        Science, not filters.
+        {t('hero.subtitle')}
       </p>
       <div class="hero__actions reveal">
         <a href="#waitlist" class="btn-primary">
-          Join the Waitlist
+          {t('hero.cta1')}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a href="https://facescore.app" class="btn-secondary" target="_blank" rel="noopener noreferrer">
-          Free Face Analysis
+        <a href="/scan" class="btn-secondary">
+          {t('hero.cta2')}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -58,7 +58,7 @@
         </svg>
         <div class="score-ring__value">
           <span class="score-ring__number" id="ring-number">0</span>
-          <span class="score-ring__label">Glow Score</span>
+          <span class="score-ring__label">{t('hero.ringLabel')}</span>
         </div>
         <!-- Glow effect behind ring -->
         <div class="score-ring__glow"></div>

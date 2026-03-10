@@ -1,10 +1,12 @@
 ---
+const { t } = Astro.locals;
+
 const tiers = [
-  { range: '0–20', name: 'Foundation', color: '#94A3B8', desc: 'Your starting point. Every journey begins here.' },
-  { range: '21–40', name: 'Building', color: '#7DD3FC', desc: 'Momentum is growing. Small changes, visible results.' },
-  { range: '41–60', name: 'Balanced', color: '#5EEAD4', desc: 'Solid ground. Your routine is paying off.' },
-  { range: '61–80', name: 'Glowing', color: '#C084FC', desc: 'You\'re radiating. Consistency is your superpower.' },
-  { range: '81–100', name: 'Radiant', color: '#FCD34D', desc: 'Peak glow. You\'ve mastered your journey.' },
+  { range: '0–20', name: t('glow.foundation.name'), color: '#94A3B8', desc: t('glow.foundation.desc') },
+  { range: '21–40', name: t('glow.building.name'), color: '#7DD3FC', desc: t('glow.building.desc') },
+  { range: '41–60', name: t('glow.balanced.name'), color: '#5EEAD4', desc: t('glow.balanced.desc') },
+  { range: '61–80', name: t('glow.glowing.name'), color: '#C084FC', desc: t('glow.glowing.desc') },
+  { range: '81–100', name: t('glow.radiant.name'), color: '#FCD34D', desc: t('glow.radiant.desc') },
 ];
 ---
 
@@ -44,12 +46,10 @@ const tiers = [
 
       <!-- Tier legend -->
       <div class="glow-score__info">
-        <p class="section-label reveal">The Glow Score</p>
-        <h2 class="section-title reveal">Your Glow, Quantified</h2>
+        <p class="section-label reveal">{t('glow.label')}</p>
+        <h2 class="section-title reveal">{t('glow.title')}</h2>
         <p class="glow-score__desc reveal">
-          The Glow Score combines skin health and facial harmony into one intuitive number.
-          It reflects how your skin is doing today — not beauty standards.
-          Track it daily. Watch it grow.
+          {t('glow.desc')}
         </p>
 
         <div class="glow-score__tiers">

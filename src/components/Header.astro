@@ -1,4 +1,5 @@
 ---
+const { t } = Astro.locals;
 ---
 
 <header class="header" id="site-header">
@@ -16,9 +17,9 @@
       <span class="header__wordmark">Visevo</span>
     </a>
     <nav class="header__nav">
-      <a href="https://facescore.app" class="header__link" target="_blank" rel="noopener noreferrer">Free Analysis</a>
+      <a href="/scan" class="header__link">{t('header.scan')}</a>
       <a href="#waitlist" class="btn-secondary header__cta">
-        Get Early Access
+        {t('header.earlyAccess')}
       </a>
     </nav>
   </div>

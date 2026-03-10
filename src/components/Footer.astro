@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+const { t } = Astro.locals;
 ---
 
 <footer class="footer">
@@ -18,13 +19,13 @@ const currentYear = new Date().getFullYear();
           </svg>
           <span>Visevo</span>
         </a>
-        <p class="footer__tagline">Made with science and love.</p>
+        <p class="footer__tagline">{t('footer.tagline')}</p>
       </div>
 
       <div class="footer__links">
-        <a href="https://facescore.app" class="footer__link" target="_blank" rel="noopener noreferrer">Free Face Analysis</a>
-        <a href="/privacy" class="footer__link">Privacy Policy</a>
-        <a href="/terms" class="footer__link">Terms of Service</a>
+        <a href="/scan" class="footer__link">{t('footer.scan')}</a>
+        <a href="/privacy" class="footer__link">{t('footer.privacy')}</a>
+        <a href="/terms" class="footer__link">{t('footer.terms')}</a>
       </div>
 
       <div class="footer__social">

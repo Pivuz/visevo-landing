@@ -1,21 +1,23 @@
 ---
+const { t } = Astro.locals;
+
 const props = [
   {
     icon: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="#C084FC" stroke-width="1.5"/><path d="M12 16l3 3 5-6" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="6" r="2" fill="#C084FC" opacity="0.5"/><circle cx="16" cy="26" r="2" fill="#C084FC" opacity="0.5"/><circle cx="6" cy="16" r="2" fill="#C084FC" opacity="0.5"/><circle cx="26" cy="16" r="2" fill="#C084FC" opacity="0.5"/></svg>`,
-    title: 'AI Skin Analysis',
-    description: 'Your phone\'s camera + our AI = real skin insights. Texture, tone, clarity, hydration — measured in seconds.',
+    title: t('value.skinAnalysis.title'),
+    description: t('value.skinAnalysis.desc'),
     accent: 'var(--color-primary)',
   },
   {
     icon: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 22l6-8 5 4 5-6 8 10" stroke="#5EEAD4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="25" cy="8" r="3" stroke="#5EEAD4" stroke-width="1.5"/></svg>`,
-    title: 'Daily Progress Tracking',
-    description: 'See your skin improve over time. Weekly trends, monthly reports, data stories that make sense.',
+    title: t('value.tracking.title'),
+    description: t('value.tracking.desc'),
     accent: 'var(--color-secondary)',
   },
   {
     icon: `<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.5 7 7.5 1-5.5 5.3 1.3 7.7L16 21.5 9.2 25l1.3-7.7L5 12l7.5-1L16 4z" stroke="#FCD34D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-    title: 'Personal AI Coach',
-    description: 'An AI that learns your routine, spots what works, and gives personalized skincare advice that evolves with you.',
+    title: t('value.coach.title'),
+    description: t('value.coach.desc'),
     accent: 'var(--glow-radiant)',
   },
 ];
@@ -23,10 +25,10 @@ const props = [
 
 <section class="value-props section">
   <div class="container text-center">
-    <p class="section-label reveal">Why Visevo</p>
-    <h2 class="section-title reveal">Know Your Glow</h2>
+    <p class="section-label reveal">{t('value.label')}</p>
+    <h2 class="section-title reveal">{t('value.title')}</h2>
     <p class="section-subtitle reveal">
-      Science meets self-care. Understand your skin like never before.
+      {t('value.subtitle')}
     </p>
 
     <div class="value-props__grid">

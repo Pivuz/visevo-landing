@@ -1,21 +1,23 @@
 ---
+const { t } = Astro.locals;
+
 const steps = [
   {
     number: '01',
-    title: 'Scan',
-    description: 'Quick selfie. Our AI analyzes your skin in 3 seconds — texture, tone, clarity, and more.',
+    title: t('how.scan.title'),
+    description: t('how.scan.desc'),
     icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="6" y="8" width="28" height="24" rx="4" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="2" fill="currentColor"/><path d="M16 8V5h8v3" stroke="currentColor" stroke-width="1.5"/></svg>`,
   },
   {
     number: '02',
-    title: 'Learn',
-    description: 'Get personalized insights about what\'s working and what to improve. AI-powered, science-backed.',
+    title: t('how.learn.title'),
+    description: t('how.learn.desc'),
     icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M14 20l4 4 8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   },
   {
     number: '03',
-    title: 'Grow',
-    description: 'Track your progress, build daily habits, and watch your glow-up unfold over weeks and months.',
+    title: t('how.grow.title'),
+    description: t('how.grow.desc'),
     icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M8 32l8-10 6 5 10-15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 12h4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   },
 ];
@@ -23,8 +25,8 @@ const steps = [
 
 <section class="how-it-works section" id="how-it-works">
   <div class="container text-center">
-    <p class="section-label reveal">How It Works</p>
-    <h2 class="section-title reveal">Three Steps to Know Your Glow</h2>
+    <p class="section-label reveal">{t('how.label')}</p>
+    <h2 class="section-title reveal">{t('how.title')}</h2>
 
     <div class="how-it-works__steps">
       {steps.map((step, i) => (

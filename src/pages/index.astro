@@ -10,9 +10,11 @@ import TrustSection from '../components/TrustSection.astro';
 import WaitlistCTA from '../components/WaitlistCTA.astro';
 import ComingSoon from '../components/ComingSoon.astro';
 import Footer from '../components/Footer.astro';
+
+const { t } = Astro.locals;
 ---
 
-<BaseLayout>
+<BaseLayout title={t('meta.homeTitle')} description={t('meta.homeDesc')}>
   <Header />
   <main>
     <HeroSection />

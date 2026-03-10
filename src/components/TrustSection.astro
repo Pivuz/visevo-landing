@@ -1,29 +1,31 @@
 ---
+const { t } = Astro.locals;
+
 const pillars = [
   {
     icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 3l12 6v9c0 7.5-5.1 14.5-12 16.5C11.1 32.5 6 25.5 6 18V9l12-6z" stroke="#00897B" stroke-width="1.5" stroke-linejoin="round"/><path d="M13 18l3.5 3.5L23 15" stroke="#00897B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-    title: 'Privacy-First',
-    description: 'All analysis runs on-device. Your face data never leaves your phone. No cloud uploads, no third-party access. Ever.',
+    title: t('trust.privacy.title'),
+    description: t('trust.privacy.desc'),
   },
   {
     icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="14" r="8" stroke="#C084FC" stroke-width="1.5"/><path d="M12 26c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round"/><path d="M22 12l3-3M14 12l-3-3M18 6V3" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-    title: 'AI-Powered Intelligence',
-    description: 'Advanced neural networks analyze skin health indicators across every scan. Trained on diverse skin types, your unique skin understood on its own terms.',
+    title: t('trust.ai.title'),
+    description: t('trust.ai.desc'),
   },
   {
     icon: `<svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M6 28l6-10 5 5 6-8 7 10" stroke="#7DD3FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="10" r="4" stroke="#7DD3FC" stroke-width="1.5"/><path d="M26 10h4M28 8v4" stroke="#7DD3FC" stroke-width="1" stroke-linecap="round"/></svg>`,
-    title: 'Science-Backed Metrics',
-    description: 'Every metric is grounded in published dermatological research and skin health science. Real analysis, not guesswork.',
+    title: t('trust.science.title'),
+    description: t('trust.science.desc'),
   },
 ];
 ---
 
 <section class="trust section">
   <div class="container text-center">
-    <p class="section-label reveal">Trust & Transparency</p>
-    <h2 class="section-title reveal">Science-Backed. Privacy-First.</h2>
+    <p class="section-label reveal">{t('trust.label')}</p>
+    <h2 class="section-title reveal">{t('trust.title')}</h2>
     <p class="section-subtitle reveal">
-      Built with care, not compromise. Here's what makes Visevo different.
+      {t('trust.subtitle')}
     </p>
 
     <div class="trust__grid">
