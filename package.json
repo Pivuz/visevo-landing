@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
-    "@mediapipe/tasks-vision": "^0.10.22",
     "astro": "^5.17.1",
     "wrangler": "^4.69.0"
   },
