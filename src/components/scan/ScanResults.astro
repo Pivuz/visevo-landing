@@ -1,0 +1,223 @@
+---
+const { t } = Astro.locals;
+---
+
+<section class="scan-results section hidden" id="scan-results-section"
+  data-i18n={JSON.stringify({
+    compliments: {
+      luminosity: t('scan.results.compliment.luminosity'),
+      toneEvenness: t('scan.results.compliment.toneEvenness'),
+      underEye: t('scan.results.compliment.underEye'),
+      redness: t('scan.results.compliment.redness'),
+      texture: t('scan.results.compliment.texture'),
+    },
+    teaseOne: t('scan.results.teaseOne'),
+    teaseMany: t('scan.results.teaseMany'),
+  })}
+>
+  <div class="container text-center">
+    <div class="results__card glass-card">
+
+      <!-- Photo with heatmap overlay -->
+      <div class="results__photo-wrapper">
+        <canvas id="results-photo" class="results__photo"></canvas>
+        <canvas id="results-heatmap" class="results__heatmap"></canvas>
+      </div>
+
+      <!-- Compliment -->
+      <h2 class="results__compliment" id="results-compliment"></h2>
+
+      <!-- Tease -->
+      <p class="results__tease" id="results-tease">
+        <svg class="results__lock-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span id="results-tease-text"></span>
+      </p>
+
+      <!-- CTA -->
+      <div class="results__cta">
+        <p class="results__cta-label">{t('scan.results.report')}</p>
+        <div class="results__cta-buttons">
+          <a href="#" class="btn-primary results__download-btn" id="results-ios-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M14.5 10.5c0-2.5-2-3.5-2-3.5s.5-1 .5-2c0-.8-.3-1.5-1-2-.5.5-1 1.5-1 2.5-1-.5-2-.5-2-.5s-1 0-2 .5c0-1-.5-2-1-2.5-.7.5-1 1.2-1 2 0 1 .5 2 .5 2s-2 1-2 3.5c0 3.5 3.5 5 5 5s5-1.5 5-5z" fill="currentColor"/>
+            </svg>
+            {t('scan.results.ios')}
+          </a>
+          <a href="#" class="btn-secondary results__download-btn" id="results-android-btn">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 8h12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M6 8V6a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.2"/>
+              <circle cx="8" cy="5" r="0.5" fill="currentColor"/>
+              <circle cx="12" cy="5" r="0.5" fill="currentColor"/>
+            </svg>
+            {t('scan.results.android')}
+          </a>
+        </div>
+        <p class="results__coming-soon">{t('scan.results.comingSoon')}</p>
+      </div>
+
+      <!-- Try another -->
+      <button class="btn-secondary results__retry" id="results-retry" type="button">
+        {t('scan.results.retry')}
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .results__card {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: var(--space-2xl);
+  }
+
+  .results__photo-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto var(--space-xl);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .results__photo {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius-md);
+  }
+
+  .results__heatmap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .results__compliment {
+    font-size: clamp(1.25rem, 2.5vw + 0.5rem, 1.75rem);
+    background: linear-gradient(135deg, var(--glow-balanced), var(--glow-glowing));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: var(--space-lg);
+    line-height: 1.3;
+  }
+
+  .results__tease {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .results__lock-icon {
+    color: var(--glow-glowing);
+    flex-shrink: 0;
+  }
+
+  .results__cta {
+    margin-bottom: var(--space-xl);
+  }
+
+  .results__cta-label {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .results__cta-buttons {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-sm);
+  }
+
+  .results__download-btn {
+    font-size: 0.875rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .results__coming-soon {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+  }
+
+  .results__retry {
+    font-size: 0.8125rem;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 480px) {
+    .results__cta-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+<script>
+  import { renderHeatmap } from '../../scripts/skin-scan/heatmap-renderer.js';
+
+  const photoCanvas = document.getElementById('results-photo') as HTMLCanvasElement;
+  const heatmapCanvas = document.getElementById('results-heatmap') as HTMLCanvasElement;
+  const complimentEl = document.getElementById('results-compliment')!;
+  const teaseText = document.getElementById('results-tease-text')!;
+
+  window.addEventListener('visevo:scan-results', ((e: CustomEvent) => {
+    const { skinMetrics, landmarks, sourceCanvas } = e.detail;
+
+    // Draw the photo
+    photoCanvas.width = sourceCanvas.width;
+    photoCanvas.height = sourceCanvas.height;
+    photoCanvas.getContext('2d')!.drawImage(sourceCanvas, 0, 0);
+
+    // Setup heatmap canvas
+    heatmapCanvas.width = sourceCanvas.width;
+    heatmapCanvas.height = sourceCanvas.height;
+
+    // Animate heatmap zones
+    let step = 0;
+    const animateZones = setInterval(() => {
+      step++;
+      renderHeatmap(heatmapCanvas, landmarks, skinMetrics.zoneScores, step);
+      if (step >= 5) clearInterval(animateZones);
+    }, 400);
+
+    // Set compliment
+    const i18n = JSON.parse(document.getElementById('scan-results-section')?.dataset.i18n || '{}');
+    const complimentKey = skinMetrics.bestMetric.name;
+    complimentEl.textContent = i18n.compliments?.[complimentKey] || skinMetrics.bestMetric.compliment;
+
+    // Set tease
+    const count = skinMetrics.improvementCount;
+    const teaseTemplate = count === 1 ? (i18n.teaseOne || '') : (i18n.teaseMany || '');
+    teaseText.textContent = teaseTemplate.replace('{count}', String(count)) || `We detected ${count} area${count !== 1 ? 's' : ''} for improvement.`;
+  }) as EventListener);
+
+  // iOS / Android CTA (waitlist for now)
+  document.getElementById('results-ios-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '/#waitlist';
+  });
+
+  document.getElementById('results-android-btn')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '/#waitlist';
+  });
+
+  // Try another
+  document.getElementById('results-retry')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('visevo:scan-reset'));
+  });
+</script>

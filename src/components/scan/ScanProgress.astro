@@ -1,0 +1,172 @@
+---
+const { t } = Astro.locals;
+---
+
+<section class="scan-progress section hidden" id="scan-progress-section">
+  <div class="container text-center">
+    <div class="progress__card glass-card">
+      <div class="progress__icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" class="progress__spinner">
+          <circle cx="24" cy="24" r="20" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+          <circle cx="24" cy="24" r="20" stroke="url(#progress-grad)" stroke-width="3"
+                  stroke-linecap="round" stroke-dasharray="60 66"/>
+          <defs>
+            <linearGradient id="progress-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6D43B7"/>
+              <stop offset="100%" stop-color="#5EEAD4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="progress__steps" id="progress-steps">
+        <div class="progress__step" data-step="0">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step0')}</span>
+        </div>
+        <div class="progress__step" data-step="1">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step1')}</span>
+        </div>
+        <div class="progress__step" data-step="2">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step2')}</span>
+        </div>
+        <div class="progress__step" data-step="3">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step3')}</span>
+        </div>
+        <div class="progress__step" data-step="4">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step4')}</span>
+        </div>
+        <div class="progress__step" data-step="5">
+          <span class="progress__check">&#10003;</span>
+          <span class="progress__label">{t('scan.progress.step5')}</span>
+        </div>
+      </div>
+
+      <div class="progress__bar">
+        <div class="progress__bar-fill" id="progress-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .progress__card {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: var(--space-2xl);
+  }
+
+  .progress__icon {
+    margin-bottom: var(--space-xl);
+  }
+
+  .progress__spinner {
+    animation: spin 1.2s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .progress__steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    text-align: left;
+    margin-bottom: var(--space-xl);
+  }
+
+  .progress__step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 0.3;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .progress__step.active {
+    opacity: 1;
+  }
+
+  .progress__step.done {
+    opacity: 0.7;
+  }
+
+  .progress__check {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border-radius: 50%;
+    background: var(--surface-3);
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .progress__step.done .progress__check {
+    background: var(--color-secondary);
+    color: white;
+  }
+
+  .progress__label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .progress__step.active .progress__label {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .progress__bar {
+    height: 4px;
+    background: var(--surface-3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress__bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-primary), var(--glow-balanced));
+    border-radius: 2px;
+    transition: width 0.5s var(--ease-out);
+  }
+
+  .hidden { display: none !important; }
+</style>
+
+<script>
+  const stepsContainer = document.getElementById('progress-steps')!;
+  const barFill = document.getElementById('progress-bar-fill')!;
+  const steps = stepsContainer.querySelectorAll('.progress__step');
+
+  function resetProgress() {
+    steps.forEach(s => {
+      s.classList.remove('active', 'done');
+    });
+    barFill.style.width = '0%';
+  }
+
+  function advanceStep(stepIndex: number) {
+    steps.forEach((s, i) => {
+      s.classList.remove('active');
+      if (i < stepIndex) {
+        s.classList.add('done');
+      } else if (i === stepIndex) {
+        s.classList.add('active');
+      }
+    });
+    barFill.style.width = `${((stepIndex + 1) / steps.length) * 100}%`;
+  }
+
+  // Expose for orchestrator
+  (window as any).__scanProgress = { resetProgress, advanceStep };
+</script>

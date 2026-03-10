@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import ScanHero from '../components/scan/ScanHero.astro';
+import ScanCapture from '../components/scan/ScanCapture.astro';
+import ScanProgress from '../components/scan/ScanProgress.astro';
+import ScanResults from '../components/scan/ScanResults.astro';
+import ScanError from '../components/scan/ScanError.astro';
+import Footer from '../components/Footer.astro';
+
+const { t } = Astro.locals;
+---
+
+<BaseLayout
+  title={t('meta.scanTitle')}
+  description={t('meta.scanDesc')}
+>
+  <Header />
+
+  <main>
+    <ScanHero />
+    <ScanCapture />
+    <ScanProgress />
+    <ScanResults />
+    <ScanError />
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  import { initEngine, analyzeFace, isEngineReady } from '../scripts/skin-scan/engine.js';
+
+  // Section references
+  const captureSection = document.getElementById('scan-capture-section')!;
+  const progressSection = document.getElementById('scan-progress-section')!;
+  const resultsSection = document.getElementById('scan-results-section')!;
+  const errorSection = document.getElementById('scan-error-section')!;
+
+  // State machine
+  function hideAll() {
+    captureSection.classList.add('hidden');
+    progressSection.classList.add('hidden');
+    resultsSection.classList.add('hidden');
+    errorSection.classList.add('hidden');
+  }
+
+  function showCapture() {
+    hideAll();
+    captureSection.classList.remove('hidden');
+  }
+
+  function showProgress() {
+    hideAll();
+    progressSection.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showResults() {
+    hideAll();
+    resultsSection.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showError(type: string, message: string) {
+    hideAll();
+    window.dispatchEvent(new CustomEvent('visevo:scan-error', {
+      detail: { type, message },
+    }));
+    errorSection.classList.remove('hidden');
+  }
+
+  // Preload MediaPipe engine in background
+  let engineReady = false;
+  initEngine().then(() => {
+    engineReady = true;
+  }).catch((err: Error) => {
+    console.error('Failed to initialize skin scan engine:', err);
+  });
+
+  // Theatrical progress animation (3s delay for perceived accuracy)
+  function animateProgress(): Promise<void> {
+    const progress = (window as any).__scanProgress;
+    if (!progress) return Promise.resolve();
+
+    progress.resetProgress();
+    return new Promise((resolve) => {
+      let step = 0;
+      const interval = setInterval(() => {
+        progress.advanceStep(step);
+        step++;
+        if (step >= 6) {
+          clearInterval(interval);
+          setTimeout(resolve, 400); // brief pause after last step
+        }
+      }, 500);
+    });
+  }
+
+  // Handle scan analyze request
+  window.addEventListener('visevo:scan-analyze', async (e: Event) => {
+    const { canvas } = (e as CustomEvent).detail as { canvas: HTMLCanvasElement };
+    showProgress();
+
+    try {
+      // Wait for engine if not ready
+      if (!engineReady) {
+        await initEngine();
+        engineReady = true;
+      }
+
+      // Run analysis + theatrical animation in parallel
+      const [result] = await Promise.all([
+        analyzeFace(canvas),
+        animateProgress(),
+      ]);
+
+      if (result.error) {
+        showError(result.error, result.message || 'Please try again.');
+        return;
+      }
+
+      // Dispatch results
+      window.dispatchEvent(new CustomEvent('visevo:scan-results', {
+        detail: {
+          skinMetrics: result.skinMetrics,
+          landmarks: result.landmarks,
+          sourceCanvas: canvas,
+        },
+      }));
+
+      showResults();
+
+    } catch (err) {
+      console.error('Scan error:', err);
+      const msg = err instanceof Error ? err.message : String(err);
+      showError('unknown', msg || 'Please try again with a different photo.');
+    }
+  });
+
+  // Handle reset
+  window.addEventListener('visevo:scan-reset', () => {
+    showCapture();
+  });
+
+  // Handle camera error from capture component
+  window.addEventListener('visevo:scan-error', ((e: CustomEvent) => {
+    if (e.detail.type === 'camera_denied') {
+      showError('camera_denied', e.detail.message);
+    }
+  }) as EventListener);
+</script>
